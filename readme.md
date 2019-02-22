@@ -5,7 +5,7 @@
 - [Docker](https://www.docker.com/products/docker-desktop) - Run containers
 - [VSCode](https://code.visualstudio.com/) - Code editor
 
-# Commands
+# Part 1 - Setup initial scaffold
 
 1. Open a command line terminal
 
@@ -64,7 +64,7 @@
 10. Using _rubydocker terminal_, stop application using `<CTRL> + C`
 ----
 
-# Part 2
+# Part 2 - Create schema based resolution
 
 11. Open _VSCode_ and open your `gql-example` local directory
 
