@@ -79,17 +79,25 @@
       testField: String
     }
     ```
+    
+    **Explanation:** _This is a schema definition file using GraphQL IDL (Interface Definition Language - a.k.a. GraphQL SDL - Schema Definition Language) that we will use to replace the Ruby class based schema definition_
 
 13. Using _VSCode_, replace the entire content of `./app/graphql/types/query_type.rb` with these lines:
 
     ```ruby
-    module Types
-      class QueryType < Types::BaseObject
-        def group(id:)
-          {id: id, display_name: "Banana#{id}"}
+      module Types
+        class QueryType < Types::BaseObject
+    -     # Add root-level fields here.
+    -     # They will be entry points for queries on your schema.
+    -
+    -     # TODO: remove me
+    -     field :test_field, String, null: false,
+    -       description: "An example field added by the generator"
+          def test_field
+            "Hello World!"
+          end
         end
       end
-    end
     ```
 
 15. Using _VSCode_, open `./app/controllers/graphql_controller.rb` and change the following lines:
