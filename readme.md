@@ -64,11 +64,107 @@
 10. Using _rubydocker terminal_, stop application using `<CTRL> + C`
 ----
 
-# Part 2 - Create schema based resolution
+# Part 2 - Replacing schema declaration
 
 11. Open _VSCode_ and open your `gql-example` local directory
 
 12. Using _VSCode_, create a new file `./schema.graphql` with these lines:
+
+    ```graphql
+    schema {
+      query: Query
+    }
+
+    type Query {
+      testField: String
+    }
+    ```
+
+13. Using _VSCode_, replace the entire content of `./app/graphql/types/query_type.rb` with these lines:
+
+    ```ruby
+    module Types
+      class QueryType < Types::BaseObject
+        def group(id:)
+          {id: id, display_name: "Banana#{id}"}
+        end
+      end
+    end
+    ```
+
+15. Using _VSCode_, open `./app/controllers/graphql_controller.rb` and change the following lines:
+
+    ```diff
+    context = {
+      # Query context goes here, for example:
+      # current_user: current_user,
+    }
+    - result = GqlExampleSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
+    + result = schema.execute(query, variables: variables, context: context, operation_name: operation_name)
+    render json: result
+    ```
+
+    ```diff
+    private
+    +
+    + def schema
+    +   @@schema ||= GraphQL::Schema.from_definition(IO.read('./schema.graphql'), default_resolve: StaticFieldResolver)
+    + end
+    ```
+
+16. Using _VSCode_, create a new file `./app/graphql/static_field_resolver.rb` with these lines:
+
+    ```ruby
+    class StaticFieldResolver
+      def self.call(type, field, obj, args, ctx)
+        type_class = Object.const_get("Types::#{type.name}Type")
+        method_name = field.name.underscore
+        instance = type_class.authorized_new(obj, ctx)
+        instance.public_send(method_name)
+      end
+    end
+    ```
+    _(Note: there are more optimized ways to achieve similar behavior, out of the scope of this tutorial)_
+
+17. Remove the following lines from:
+
+    ```diff
+      module Types
+        class QueryType < Types::BaseObject
+    -     # Add root-level fields here.
+    -     # They will be entry points for queries on your schema.
+    -   
+    -     # TODO: remove me
+    -     field :test_field, String, null: false,
+    -       description: "An example field added by the generator"
+          def test_field
+            "Hello World!"
+          end
+        end
+      end
+    ```
+18. Using _rubydocker terminal_, run rails application
+
+   ```bash
+   rails s
+   ```
+
+19. Open your browser in your local machine and visit (http://localhost:3000/graphiql). It should open the _graphiql interface_.
+
+20. Using _graphiql interface_, execute the following query:
+    ```graphql
+    query {
+      testField
+    }
+    ```
+21. Using _rubydocker terminal_, stop application using `<CTRL> + C`
+----
+
+# Part 3 - Supporting arguments on schema based resolution
+
+11. Open _VSCode_ and open your `gql-example` local directory
+
+12. Using _VSCode_, create/replace file `./schema.graphql` with these lines:
 
     ```graphql
     schema {
@@ -113,7 +209,7 @@
     end
     ```
 
-15. Using _VSCode_, open `./app/controllers/graphql_controller.rb` and change the following lines:
+15. Using _VSCode_, open `./app/controllers/graphql_controller.rb` and change the following lines (if you haven't done it already in part 2):
 
     ```diff
     context = {
@@ -133,7 +229,7 @@
     + end
     ```
 
-16. Using _VSCode_, create a new file `./app/graphql/static_field_resolver.rb` with these lines:
+16. Using _VSCode_, create/replace file `./app/graphql/static_field_resolver.rb` with these lines:
 
     ```ruby
     class StaticFieldResolver
