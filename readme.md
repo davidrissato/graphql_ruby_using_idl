@@ -104,7 +104,7 @@
             instance.public_send(method_name, **args)
           end
         elsif obj.is_a?(Hash)
-          obj[method_name]
+          obj[method_name.to_sym] || obj[method_name]
         else
           raise "No field resolver for #{type.name}\##{field.name}"
         end
