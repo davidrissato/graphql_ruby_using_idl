@@ -131,7 +131,19 @@
     }
     ```
 
-15. Using _VSCode_, create a new file `./app/graphql/types/group_type.rb` with these lines:
+15. Using _VSCode_, replace the entire content of `./app/graphql/types/query_type.rb` with these lines:
+
+    ```ruby
+    module Types
+      class QueryType < Types::BaseObject
+        def group(id:)
+          {id: id, display_name: "Banana#{id}"}
+        end
+      end
+    end
+    ```
+
+16. Using _VSCode_, create a new file `./app/graphql/types/group_type.rb` with these lines:
 
     ```ruby
     module Types
@@ -148,14 +160,3 @@
     ```
 
 
-16. Using _VSCode_, replace the entire content of `./app/graphql/types/query_type.rb` with these lines:
-
-    ```ruby
-    module Types
-      class QueryType < Types::BaseObject
-        def group(id:)
-          {id: id, display_name: "Banana#{id}"}
-        end
-      end
-    end
-    ```
