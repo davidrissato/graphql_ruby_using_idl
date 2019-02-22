@@ -68,7 +68,52 @@
 
 11. Open _VSCode_ and open your `gql-example` local directory
 
-12. Using _VSCode_, open `./app/controllers/graphql_controller.rb` and change the following lines:
+12. Using _VSCode_, create a new file `./schema.graphql` with these lines:
+
+    ```graphql
+    schema {
+      query: Query
+    }
+
+    type Query {
+      group(id: String): Group
+    }
+
+    type Group {
+      id: String
+      displayName: String
+    }
+    ```
+
+13. Using _VSCode_, replace the entire content of `./app/graphql/types/query_type.rb` with these lines:
+
+    ```ruby
+    module Types
+      class QueryType < Types::BaseObject
+        def group(id:)
+          {id: id, display_name: "Banana#{id}"}
+        end
+      end
+    end
+    ```
+
+14. Using _VSCode_, create a new file `./app/graphql/types/group_type.rb` with these lines:
+
+    ```ruby
+    module Types
+      class GroupType < Types::BaseObject
+        def id  
+          object[:id]
+        end
+
+        def display_name
+          object[:display_name]
+        end
+      end
+    end
+    ```
+
+15. Using _VSCode_, open `./app/controllers/graphql_controller.rb` and change the following lines:
 
     ```diff
     context = {
@@ -88,7 +133,7 @@
     + end
     ```
 
-13. Using _VSCode_, create a new file `./app/graphql/static_field_resolver.rb` with these lines:
+16. Using _VSCode_, create a new file `./app/graphql/static_field_resolver.rb` with these lines:
 
     ```ruby
     class StaticFieldResolver
@@ -112,51 +157,3 @@
     end
     ```
     _(Note: there are more optimized ways to achieve similar behavior, out of the scope of this tutorial)_
-
-
-14. Using _VSCode_, create a new file `./schema.graphql` with these lines:
-
-    ```graphql
-    schema {
-      query: Query
-    }
-
-    type Query {
-      group(id: String): Group
-    }
-
-    type Group {
-      id: String
-      displayName: String
-    }
-    ```
-
-15. Using _VSCode_, replace the entire content of `./app/graphql/types/query_type.rb` with these lines:
-
-    ```ruby
-    module Types
-      class QueryType < Types::BaseObject
-        def group(id:)
-          {id: id, display_name: "Banana#{id}"}
-        end
-      end
-    end
-    ```
-
-16. Using _VSCode_, create a new file `./app/graphql/types/group_type.rb` with these lines:
-
-    ```ruby
-    module Types
-      class GroupType < Types::BaseObject
-        def id  
-          object[:id]
-        end
-
-        def display_name
-          object[:display_name]
-        end
-      end
-    end
-    ```
-
-
