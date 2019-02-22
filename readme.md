@@ -25,7 +25,7 @@
 
    This text will refer to this terminal window as _rubydocker terminal_ from now on.
 
-4. Using _rubydocker terminal_, install nodejs (required by graphql generator) & rails `5.1` _(~1 minute)_
+4. Using _rubydocker terminal_, install nodejs (required by graphql generator to install graphiql) & rails `5.1` _(~1 minute)_
    ```rails
    apt-get update
    apt-get install nodejs -y
@@ -34,7 +34,7 @@
 
    _(Note: there are more elegant ways to create a docker image with rails and node pre-installed, out of the scope of this tutorial)_
 
-5.  Using _rubydocker terminal_, initialize a lightweight version of a rails application _(~2 minute)_
+5.  Using _rubydocker terminal_, initialize a lightweight rails application _(~2 minute)_
     ```bash
     rails new . --skip-active-record --skip-yarn --skip-action-mailer --skip-active-storage --skip-action-cable --skip-coffee --skip-javascript --skip-turbolinks --skip-bootsnap --skip-spring
     ```
