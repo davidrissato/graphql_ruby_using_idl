@@ -160,7 +160,7 @@
 21. Using _rubydocker terminal_, stop application using `<CTRL> + C`
 ----
 
-# Part 3 - Supporting arguments on schema based resolution
+# Part 3 - Adding support to arguments on the schema based resolution
 
 11. Open _VSCode_ and open your `gql-example` local directory
 
