@@ -1,4 +1,4 @@
-(This document is a WIP)
+(This document is a draft - WIP)
 
 # Pre-requisites
 
