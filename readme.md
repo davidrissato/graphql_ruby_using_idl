@@ -116,7 +116,7 @@
 
 14. Using _VSCode_, create a new file `./schema.graphql` with these lines:
 
-    ```
+    ```graphql
     schema {
       query: Query
     }
@@ -133,7 +133,7 @@
 
 15. Using _VSCode_, create a new file `./app/graphql/types/group_type.rb` with these lines:
 
-    ```
+    ```ruby
     module Types
       class GroupType < Types::BaseObject
         def id  
@@ -150,7 +150,7 @@
 
 16. Using _VSCode_, replace the entire content of `./app/graphql/types/query_type.rb` with these lines:
 
-    ```
+    ```ruby
     module Types
       class QueryType < Types::BaseObject
         def group(id:)
