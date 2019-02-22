@@ -84,7 +84,7 @@
 
 13. Using _VSCode_, replace the entire content of `./app/graphql/types/query_type.rb` with these lines:
 
-    ```ruby
+    ```diff
       module Types
         class QueryType < Types::BaseObject
     -     # Add root-level fields here.
