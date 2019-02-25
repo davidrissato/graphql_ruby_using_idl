@@ -156,14 +156,14 @@ _This section is an intermediary and simplified step that I created to show what
 
     **Explanation:** _This class is used to map types and fields to their field resolvers. I'm following the same conventions defined by the generator, where types are declared on a package named 'Types::' and the class name is composed by the type name, followed by the word 'Type'. Ex: 'Types::QueryType'. This is a very simple implementation that will be optimized in the next part of this guide_
 
-16. Remove these two files from `/app/graphql/`: `gql_example_schema.rb` and `mutation_type.rb`. (We don't need them anymore)
+16. Remove files `gql_example_schema.rb` and `mutation_type.rb` from `/app/graphql/`. We don't need them anymore.
 
 17. Run a new smoke test by executing again [Running a smoke test](#running-a-smoke-test) (Part 1 - Steps 7 to 10)
 ----
 
 # Part 3 - Adding support to arguments on the schema based resolution
 
-18. (Execute this step only if you have skiped part 2): Remove these two files from `/app/graphql/`: `gql_example_schema.rb` and `mutation_type.rb`. (We don't need them anymore)
+18. If you skipped part 2, remove files `gql_example_schema.rb` and `mutation_type.rb` from `/app/graphql/`.
 
 19. Open _VSCode_ and open your `gql-example` local directory
 
