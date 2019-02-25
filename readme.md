@@ -261,4 +261,3 @@ _This section is an intermediary and simplified step that I created to show what
       end
     end
     ```
-    _(Note: there are more optimized ways to achieve similar behavior, out of the scope of this tutorial)_
