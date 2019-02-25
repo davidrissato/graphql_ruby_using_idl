@@ -1,17 +1,26 @@
 (This document is a draft - WIP)
 
+# Objectives
+This guide will show the steps to replace the default [class based API](https://graphql-ruby.org/schema/class_based_api) schema definitions by a IDL based schema (Interface Definition Language, sometimes referred as SDL - Schema Definition Language) on a Ruby GraphQL rails based application.
+
+I could have created just a generator (and I might do that later on), but I believe this approach might make it easier to understand what is going on behind the scenes.
+
 # Pre-requisites
 
 - [Docker](https://www.docker.com/products/docker-desktop) - Run containers
 - [VSCode](https://code.visualstudio.com/) - Code editor
 
-# Part 1 - Setup initial scaffold
+# Part 1 - Creating a base rails install and a minimal rails application
+
+## Creating a Rails docker image pointing to a local folder
 
 1. Open a command line terminal
 
 2. Create a new folder `gql-example` on your computer and `cd` into it
 
 3. Let's run a `bash` terminal using a docker `ruby:2.4` image _(~1 minute on a good connection)_
+
+   _Note: This step is creating a non-persistent docker image pointing to a local folder, just to guarantee that we can use the exactly same commands on all environments (Windows / Mac / Linux). In case you are already running a Debian based `bash` terminal, and have Ruby 2.4 installed (I strongly recommend using [RVM](https://rvm.io/) for that), feel free to skip this step._
 
    - Mac / Windows PowerShell
    ```bash
@@ -32,7 +41,9 @@
    gem install rails -v 5.1
    ```
 
-   _(Note: there are more elegant ways to create a docker image with rails and node pre-installed, out of the scope of this tutorial)_
+   _(PS: there are more elegant ways to create a docker image with rails and node pre-installed, out of the scope of this tutorial)_
+
+## Create a minimal GraphQL rails application
 
 5.  Using _rubydocker terminal_, initialize a lightweight rails application _(~2 minute)_
     ```bash
@@ -46,6 +57,7 @@
    rails generate graphql:install
    bundle install
    ```
+## Running a smoke test
 
 7. Using _rubydocker terminal_, run rails application
 
@@ -186,6 +198,12 @@
     type Group {
       id: String
       displayName: String
+    }
+    
+    type Dog {
+      id: String
+      name: String
+      breed: String
     }
     ```
 
