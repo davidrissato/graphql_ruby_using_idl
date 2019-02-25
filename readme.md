@@ -165,21 +165,7 @@ I could have only created a generator (and I might do that later on), but I beli
         end
       end
     ```
-18. Using _rubydocker terminal_, run rails application
-
-   ```bash
-   rails s
-   ```
-
-19. Open your browser in your local machine and visit (http://localhost:3000/graphiql). It should open the _graphiql interface_.
-
-20. Using _graphiql interface_, execute the following query:
-    ```graphql
-    query {
-      testField
-    }
-    ```
-21. Using _rubydocker terminal_, stop application using `<CTRL> + C`
+18. Run a new smoke test by executing again [Running a smoke test](#running-a-smoke-test) (Part 1 - Steps 7 to 10)
 ----
 
 # Part 3 - Adding support to arguments on the schema based resolution
