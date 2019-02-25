@@ -1,7 +1,7 @@
 (This document is a draft - WIP)
 
 # Objectives
-This guide will show the steps to replace the default [class based API](https://graphql-ruby.org/schema/class_based_api) schema declaration by adding a [GraphQL SDL](https://graphql.org/learn/schema/#type-language) schema declaration support<sup>[*1](#f1)</sup> to a [Ruby GraphQL](https://graphql-ruby.org) rails based application.
+This guide will show how to replace the default [class based API](https://graphql-ruby.org/schema/class_based_api) schema declaration by adding a [GraphQL SDL](https://graphql.org/learn/schema/#type-language) schema declaration support<sup>[*1](#f1)</sup> to a [Ruby GraphQL](https://graphql-ruby.org) rails based application.
 
 I could have only created a generator (and I might do that later on), but I believe documenting this approach might make it easier to understand what is going on behind the scenes.
 
@@ -80,6 +80,8 @@ I could have only created a generator (and I might do that later on), but I beli
 
 # Part 2 - Replacing schema declaration
 
+_This section is an intermediary and simplified step that I created to show what exacttly is being replaced. If you are only interested on adding support without too many details on what is being replaced, feel free to jump directly to part 3_
+
 11. Open _VSCode_ and open your `gql-example` local directory
 
 12. Using _VSCode_, create a new file `./schema.graphql` with these lines:
@@ -90,11 +92,11 @@ I could have only created a generator (and I might do that later on), but I beli
     }
 
     type Query {
-      testField: String
+      testField: String!
     }
     ```
     
-    **Explanation:** _This is a schema definition file using GraphQL IDL (Interface Definition Language - a.k.a. GraphQL SDL - Schema Definition Language) that we will use to replace the Ruby class based schema definition_
+    **Explanation:** _This is a schema definition file using GraphQL IDL that matches the exact declaration that has been created by GraphQL rails generator for field `testField` from type Query_
 
 13. Using _VSCode_, replace the entire content of `./app/graphql/types/query_type.rb` with these lines:
 
@@ -113,8 +115,11 @@ I could have only created a generator (and I might do that later on), but I beli
         end
       end
     ```
+    
+    **Explanation:** _We are removing field declaration from this class because we don't need it anymore. Notice that we kept the field resolver intact._
 
-15. Using _VSCode_, open `./app/controllers/graphql_controller.rb` and change the following lines:
+
+14. Using _VSCode_, open `./app/controllers/graphql_controller.rb` and change the following lines:
 
     ```diff
     context = {
@@ -133,8 +138,10 @@ I could have only created a generator (and I might do that later on), but I beli
     +   @@schema ||= GraphQL::Schema.from_definition(IO.read('./schema.graphql'), default_resolve: StaticFieldResolver)
     + end
     ```
+    
+    **Explanation:** _We are replacing the original schema definition by a file based version, and also assigning a `default_resolver` (this class will be the created in the next step)._
 
-16. Using _VSCode_, create a new file `./app/graphql/static_field_resolver.rb` with these lines:
+15. Using _VSCode_, create a new file `./app/graphql/static_field_resolver.rb` with these lines:
 
     ```ruby
     class StaticFieldResolver
@@ -146,33 +153,21 @@ I could have only created a generator (and I might do that later on), but I beli
       end
     end
     ```
-    _(Note: we will optimize this code further in the next part of this tutorial)_
 
-17. Remove the following lines from:
+    **Explanation:** _This class is used to map types and fields to their field resolvers. I'm following the same conventions defined by the generator, where types are declared on a package named 'Types::' and the class name is composed by the type name, followed by the word 'Type'. Ex: 'Types::QueryType'. This is a very simple implementation that will be optimized in the next part of this guide_
 
-    ```diff
-      module Types
-        class QueryType < Types::BaseObject
-    -     # Add root-level fields here.
-    -     # They will be entry points for queries on your schema.
-    -   
-    -     # TODO: remove me
-    -     field :test_field, String, null: false,
-    -       description: "An example field added by the generator"
-          def test_field
-            "Hello World!"
-          end
-        end
-      end
-    ```
-18. Run a new smoke test by executing again [Running a smoke test](#running-a-smoke-test) (Part 1 - Steps 7 to 10)
+16. Remove these two files from `/app/graphql/`: `gql_example_schema.rb` and `mutation_type.rb`. (We don't need them anymore)
+
+17. Run a new smoke test by executing again [Running a smoke test](#running-a-smoke-test) (Part 1 - Steps 7 to 10)
 ----
 
 # Part 3 - Adding support to arguments on the schema based resolution
 
-11. Open _VSCode_ and open your `gql-example` local directory
+18. (Execute this step only if you have skiped part 2): Remove these two files from `/app/graphql/`: `gql_example_schema.rb` and `mutation_type.rb`. (We don't need them anymore)
 
-12. Using _VSCode_, create/replace file `./schema.graphql` with these lines:
+19. Open _VSCode_ and open your `gql-example` local directory
+
+20. Using _VSCode_, create/replace file `./schema.graphql` with these lines:
 
     ```graphql
     schema {
@@ -195,7 +190,7 @@ I could have only created a generator (and I might do that later on), but I beli
     }
     ```
 
-13. Using _VSCode_, replace the entire content of `./app/graphql/types/query_type.rb` with these lines:
+21. Using _VSCode_, replace the entire content of `./app/graphql/types/query_type.rb` with these lines:
 
     ```ruby
     module Types
@@ -207,7 +202,7 @@ I could have only created a generator (and I might do that later on), but I beli
     end
     ```
 
-14. Using _VSCode_, create a new file `./app/graphql/types/group_type.rb` with these lines:
+22. Using _VSCode_, create a new file `./app/graphql/types/group_type.rb` with these lines:
 
     ```ruby
     module Types
@@ -223,7 +218,7 @@ I could have only created a generator (and I might do that later on), but I beli
     end
     ```
 
-15. Using _VSCode_, open `./app/controllers/graphql_controller.rb` and change the following lines (if you haven't done it already in part 2):
+23. Using _VSCode_, open `./app/controllers/graphql_controller.rb` and change the following lines (if you haven't done it already in part 2):
 
     ```diff
     context = {
@@ -243,7 +238,7 @@ I could have only created a generator (and I might do that later on), but I beli
     + end
     ```
 
-16. Using _VSCode_, create/replace file `./app/graphql/static_field_resolver.rb` with these lines:
+24. Using _VSCode_, create/replace file `./app/graphql/static_field_resolver.rb` with these lines:
 
     ```ruby
     class StaticFieldResolver
