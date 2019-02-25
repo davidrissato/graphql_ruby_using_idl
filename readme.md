@@ -12,7 +12,7 @@ I could have only created a generator (and I might do that later on), but I beli
 - [Docker](https://www.docker.com/products/docker-desktop) - Run containers
 - [VSCode](https://code.visualstudio.com/) - Code editor
 
-# Part 1 - Creating a base rails install and a minimal rails application
+# Part 1 - Creating a base rails install and a minimal web application
 
 ## Creating a Rails docker image pointing to a local folder
 
