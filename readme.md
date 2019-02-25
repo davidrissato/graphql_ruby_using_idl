@@ -132,7 +132,7 @@
       end
     end
     ```
-    _(Note: there are more optimized ways to achieve similar behavior, out of the scope of this tutorial)_
+    _(Note: we will optimize this code further in the next part of this tutorial)_
 
 17. Remove the following lines from:
 
