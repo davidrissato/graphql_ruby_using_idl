@@ -1,9 +1,11 @@
 (This document is a draft - WIP)
 
 # Objectives
-This guide will show the steps to replace the default [class based API](https://graphql-ruby.org/schema/class_based_api) schema definitions by a IDL based schema (Interface Definition Language, sometimes referred as SDL - Schema Definition Language) on a Ruby GraphQL rails based application.
+This guide will show the steps to replace the default [class based API](https://graphql-ruby.org/schema/class_based_api) schema declaration by adding a [GraphQL SDL](https://graphql.org/learn/schema/#type-language) schema declaration support<sup>[*1](#f1)</sup> to a [Ruby GraphQL](https://graphql-ruby.org) rails based application.
 
-I could have created just a generator (and I might do that later on), but I believe this approach might make it easier to understand what is going on behind the scenes.
+I could have only created a generator (and I might do that later on), but I believe documenting this approach might make it easier to understand what is going on behind the scenes.
+
+<a id="f1"><sup>*1</sup></a>: SDL means Schema Definition Language, and it is also sometimes referred as GraphQL IDL - Interface Definition Language.
 
 # Pre-requisites
 
